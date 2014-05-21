@@ -1,0 +1,704 @@
+﻿<html>
+    <head>
+        <meta charset="utf-8"/>
+        <title>Base de Datos</title>
+
+        <link rel="stylesheet" href="css/menu.css" type="text/css" media="screen">
+        <link href="css/jquery.mobile.theme-1.0.min.css" rel="stylesheet" type="text/css"/>
+        <link href="css/jquery.mobile.structure-1.0.min.css" rel="stylesheet" type="text/css"/>
+
+        <script src="phonegap.js"></script>
+        <script src="js/jquery-1.6.4.min.js" type="text/javascript"></script>
+        <script src="js/jquery.mobile-1.0.min.js" type="text/javascript"></script>
+        <style type="text/css">
+            td{empty-cells: show}
+            td{empty-cells: hide}
+            #content{
+                background-image:url(img/fondo.png);
+                /* background-size: 100% 100%;
+                 -moz-background-size: 100% 100%;*/
+                width: auto;
+                height: 800px;
+            }
+        </style>
+
+
+        <script type="text/javascript">
+            $(function() {
+                document.addEventListener("deviceready", function() {
+                    //alert("funciona");
+                    var botonCID = $("#editarCitaB");
+                    botonCID.tap(function() {
+                        var nombremm = $("#nom").val();
+                        var appp = $("#app").val();
+                        var apmm = $("#apm").val();
+                        var fechdnn = $("#fna").val();
+                        var direccc = $("#dirrec").val();
+                        var correoo = $("#corre").val();
+                        var sitiowww = $("#sweb").val();
+                        var telefooo = $("#tele").val();
+                        var telefocc = $("#telec").val();
+                        var oficioo = $("#ofi").val();
+                        if (nombremm != "" && appp != "" && apmm != "" && fechdnn != "" && direccc != "" && correoo != "" && sitiowww != "" && telefooo != "" && telefocc != "" && oficioo != "") {
+                            enviarcontacto(nombremm, appp, apmm, fechdnn, direccc, correoo, sitiowww, telefooo, telefocc, oficioo);
+                        } else {
+                            alert("Es requerido el campo");
+                        }
+                    });
+                    function  enviarcontacto(nombremm, appp, apmm, fechdnn, direccc, correoo, sitiowww, telefooo, telefocc, oficioo) {
+                        var usuarios = $("#usuariosP").val();
+                        //alert(usuarios);
+                        $.ajax({
+                            type: "POST",
+                            url: "http://jocasama.260mb.net/agenda/agregarcontacto.php",
+                            data: "Nombre=" + nombremm + "&App=" + appp + "&Apm=" + apmm + "&Fecha=" + fechdnn + "&Dirrecion=" + direccc + "&Correo=" + correoo + "&Sitioweb=" + sitiowww + "&Telefono=" + telefooo + "&TelefonoC=" + telefocc + "&Oficio=" + oficioo + "&usuario=" + usuarios,
+                            success: onSuccess
+                        });
+                        function onSuccess()
+                        {
+                            alert("Contacto agregado");
+                        }
+                    }
+
+
+                    var botonCID = $("#edita2");
+                    botonCID.tap(function() {
+                        var citaII = $("#nombrecontacto").val();
+                        if (citaII != "") {
+                            enviar(citaII);
+                        } else {
+                            alert("Es requerido el campo");
+                        }
+                    });
+                    var actualizarB = $("#guardarcontactomodificado");
+                    actualizarB.tap(function() {
+                        var actualizarr = $("#quemodificar").val();
+                        var actualizar2 = $("#modificarA").val();
+
+                        if (actualizarr != "" && actualizar2 != "") {
+                            actualizarcon(actualizarr, actualizar2);
+                        } else {
+                            alert("Es requerido el campo");
+                        }
+                    });
+                    function  actualizarcon(actualizarr, actualizar2) {
+                        var caja = $("#nombrecontacto").val();
+                        var dividir4 = caja.split(" ");
+                        $.ajax({
+                            type: "POST",
+                            url: "http://jocasama.260mb.net/agenda/actualizarcontacto.php",
+                            data: "Actualizar=" + actualizarr + "&Actualizar2=" + actualizar2 + "&nombre14=" + dividir4[0] + "&nombreAP4=" + dividir4[1] + "&nombreAM4=" + dividir4[2],
+                            success: onSuccess
+                        });
+                        function onSuccess()
+                        {
+                            alert("Se actualizo campo");
+                            $(document).ready(function() {
+                                var ci = $("#nombrecontacto").val();
+                                var dividir3 = ci.split(" ");
+                                $.ajax({
+                                    type: "POST",
+                                    url: "http://jocasama.260mb.net/agenda/consultacontactos2.php",
+                                    data: "nombre13=" + dividir3[0] + "&nombreAP3=" + dividir3[1] + "&nombreAM3=" + dividir3[2],
+                                    success: consultandoeditar
+                                });
+                            });
+
+                        }
+
+                    }
+                    var act = $("#editacuenta");
+                    act.tap(function() {
+                        var actualizarr = $("#quemodificar").val();
+                        var actualizar2 = $("#modificarA").val();
+                        var caja = $("#Usuario").val();
+                        if (actualizarr != "" && actualizar2 != "") {
+                            actualizarcuenta(actualizarr, actualizar2, caja);
+                        } else {
+                            alert("Es requerido el campo");
+                        }
+                    });
+                    function  actualizarcuenta(actualizarr, actualizar2, caja) {
+
+                        var dividir5 = caja.split(" ");
+                        alert(dividir5[0]);
+                        $.ajax({
+                            type: "POST",
+                            url: "http://jocasama.260mb.net/agenda/actualizarcontacto.php",
+                            data: "Actualizar=" + actualizarr + "&Actualizar2=" + actualizar2 + "&nombre14=" + dividir5[0] + "&nombreAP4=" + dividir5[1] + "&nombreAM4=" + dividir5[2],
+                            success: onSuccess
+                        });
+                        function onSuccess()
+                        {
+                            alert("Se actualizo campo");
+                            actualizar2 = $("#modificarA").val(" ");
+                            $(document).ready(function() {
+                                var ci = $("#nombrecontacto").val();
+                                var dividir3 = ci.split(" ");
+                                $.ajax({
+                                    type: "POST",
+                                    url: "http://jocasama.260mb.net/agenda/consultacontactos2.php",
+                                    data: "nombre13=" + dividir3[0] + "&nombreAP3=" + dividir3[1] + "&nombreAM3=" + dividir3[2],
+                                    success: consultandoeditar
+                                });
+                            });
+
+                        }
+
+                    }
+
+                    function enviar(citaII) {
+                        var dividir2 = citaII.split(" ");
+                        $.ajax({
+                            type: "POST",
+                            url: "http://jocasama.260mb.net/agenda/modificarcontactos.php",
+                            data: "nombre12=" + dividir2[0] + "&nombreAP2=" + dividir2[1] + "&nombreAM2=" + dividir2[2],
+                            success: onSuccess
+                        });
+                        function onSuccess(data)
+                        {
+                            if (data == 1) {
+                                window.location = "#modificarcaontacto";
+                                $(document).ready(function() {
+                                    var ci = $("#nombrecontacto").val();
+                                    var dividir3 = ci.split(" ");
+                                    $.ajax({
+                                        type: "POST",
+                                        url: "http://jocasama.260mb.net/agenda/consultacontactos2.php",
+                                        data: "nombre13=" + dividir3[0] + "&nombreAP3=" + dividir3[1] + "&nombreAM3=" + dividir3[2],
+                                        success: consultandoeditar
+                                    });
+                                });
+                            } else {
+                                alert("No se encontraron los datos");
+                                $(":text").each(function() {
+                                    $($(this)).val('');
+                                });
+                            }
+                        }
+
+                    }
+                    var botonEliminar = $("#eliminarCita");
+                    botonEliminar.tap(function() {
+                        var idCitaE = $("#IDeliminar").val();
+
+                        if (idCitaE != "") {
+                            eliminarcitaC(idCitaE);
+                        } else {
+                            alert("Es requerido el campo");
+                        }
+                    });
+
+                    function  eliminarcitaC(idCitaE) {
+                        $.ajax({
+                            type: "POST",
+                            url: "http://jocasama.260mb.net/agenda/eliminarcita.php",
+                            data: "Idcitae=" + idCitaE,
+                            success: onSuccess
+                        });
+                        function onSuccess(data)
+                        {
+                            if (data == 1) {
+                                alert("Se elimino cita");
+                                $(":text").each(function() {
+                                    $($(this)).val('');
+                                });
+                            } else {
+                                alert("No se encontro la cita");
+                                $(":text").each(function() {
+                                    $($(this)).val('');
+                                });
+                            }
+                        }
+
+                    }
+                    var botonEliminarcontacto = $("#eliminarcontacto2");
+                    botonEliminarcontacto.tap(function() {
+                        var contactoE = $("#IDeliminarcontacto").val();
+                        if (contactoE != "") {
+                            eliminarcitaContacto(contactoE);
+                        } else {
+                            alert("Es requerido el campo");
+                        }
+                    });
+
+                    function  eliminarcitaContacto(contactoE) {
+                        var dividir = contactoE.split(" ");
+                        $.ajax({
+                            type: "POST",
+                            url: "http://jocasama.260mb.net/agenda/eliminarcontacto.php",
+                            data: "nombre1=" + dividir[0] + "&nombreAP=" + dividir[1] + "&nombreAM=" + dividir[2],
+                            success: onSuccess
+                        });
+                        function onSuccess(data) {
+                            if (data == 1) {
+                                alert("Se eliminó el contacto con exito");
+                                $(":text").each(function() {
+                                    $($(this)).val('');
+                                });
+                            } else {
+                                alert("No se encontró el contacto");
+                                $(":text").each(function() {
+                                    $($(this)).val('');
+                                });
+                            }
+                        }
+
+                    }
+                    var bo = $("#usuariosB");
+                    bo.tap(function() {
+                        var usuarios = $("#usuariosP").val();
+                        var contrasenas = $("#contraseñaP").val();
+                        if (usuarios != "" && contrasenas != "") {
+                            loginagenda(usuarios, contrasenas);
+                        } else {
+                            alert("Es necesario introducir usuario y contraseña");
+                        }
+                    });
+
+                    function loginagenda(usuarios, contrasenas) {
+                        $.ajax({
+                            type: "POST",
+                            url: "http://jocasama.260mb.net/agenda/login.php",
+                            data: "Usuarios=" + usuarios + "&Contrasena=" + contrasenas,
+                            success: onSuccess
+
+                        });
+                        function onSuccess(data)
+                        {
+                            if (data == 1) {
+                                window.location = "#principal";
+                                $(":password").each(function() {
+                                    $($(this)).val('');
+                                });
+                            } else {
+                                alert("Datos Incorrectos");
+                                $(":password").each(function() {
+                                    $($(this)).val('');
+                                });
+                            }
+                        }
+
+                    }
+                    var btnconsulta = $("#Ci");
+                    btnconsulta.tap(function() {
+                        var usuarios = $("#usuariosP").val();
+                        $.ajax({
+                            type: "POST",
+                            url: "http://jocasama.260mb.net/agenda/consultacitas.php",
+                            data: "usuario=" + usuarios,
+                            success: consultandocitas
+                        });
+                    });
+                    var btnconsultaw = $("#cuantasss");
+                    btnconsultaw.tap(function() {
+                        //alert("Funciona");
+                        var usuariosee = $("#usuariosP").val();
+                        $.ajax({
+                            type: "POST",
+                            url: "http://jocasama.260mb.net/agenda/cuenta.php",
+                            data: "usuario=" + usuariosee,
+                            success: cuenta
+                        });
+                    });
+                    var btncontactos = $("#ContactosPrincipalC");
+                    btncontactos.tap(function() {
+                        var clientes = $("#usuariosP").val();
+                        $.ajax({
+                            type: "POST",
+                            url: "http://jocasama.260mb.net/agenda/consultacontactos.php",
+                            data: "Clientes=" + clientes,
+                            success: consultandocontactos
+                        });
+                    });
+                    var btncontactos = $("#ContactosmostrarR");
+                    btncontactos.tap(function() {
+                        var usuarios = $("#usuariosP").val();
+                        $.ajax({
+                            type: "POST",
+                            url: "http://jocasama.260mb.net/agenda/consultacontactos3.php",
+                            data: "usuario=" + usuarios,
+                            success: consultandocontactos2
+                        });
+                    });
+
+                });
+            });
+
+            function consultandocitas(data) {
+                var registro = $.parseJSON(data);
+                var mostrarf = $("#datoscitas");
+                mostrarf.html('');
+                mostrarf.append('<table  align="center" border="1" id="tabl2"><tr><th>Fechas</th><th>Horas</th><th>Cita Con</th><th>Comentarios</th></tr>');
+                var tabla2 = $("#tabl2");
+                for (var i in registro) {
+
+                    tabla2.append('<tr><td>' + registro[i].fecha + '</td>' +
+                            '<td>' + registro[i].hora + '</td>' +
+                            '<td>' + registro[i].citaCon + '</td>' +
+                            '<td>' + registro[i].comentario + '</td></tr>');
+                }
+                tabla2.append("</table>");
+            }
+            function cuenta(data) {
+                var registro = $.parseJSON(data);
+                var mostrarcuantas = $("#datoscuenta");
+                mostrarcuantas.html('');
+
+                for (var i in registro) {
+                    mostrarcuantas.append('<ul id="nav"><li><a href="#" class="sub" tabindex="1">' + registro[i].name + ' ' + registro[i].apP + ' ' + registro[i].apM + '</a><img src="images/up.gif" />\n\
+                     <ul><li><a><b>Fecha de Nacimiento: </b> ' + registro[i].birthDate + ' </a></li> \n\
+                         <li><a><b>Dirección: </b> ' + registro[i].address + ' </a></li>\n\
+                         <li><a><b>Correo: </b> ' + registro[i].email + '</a></li>\n\
+                         <li><a><b>Sitio Web: </b> ' + registro[i].site + '</a></li>\n\
+                         <li><a><b>Teléfono: </b> ' + registro[i].tel + '</a></li>\n\
+                         <li><a><b>Teléfono Celular: </b> ' + registro[i].cel + '</a></li>\n\
+                         <li><a><b>Oficio: </b> ' + registro[i].oficio + '</a></li>\n\
+                     </ul></li>\n\
+                    </ul>');
+                }
+                var ucuarioamostrar = $("#Usuario");
+                ucuarioamostrar.html('');
+                ucuarioamostrar.append(registro[i].name + ' ' + registro[i].apP + ' ' + registro[i].apM);
+            }
+            function consultandocontactos(data) {
+                var registro = $.parseJSON(data);
+                var mostrarcontactos = $("#datoscontactos");
+                mostrarcontactos.html('');
+                for (var i in registro) {
+                    mostrarcontactos.append('<ul id="nav"><li><a href="#" class="sub" tabindex="1">' + registro[i].name + ' ' + registro[i].apP + ' ' + registro[i].apM + '</a><img src="images/up.gif" />\n\
+                     <ul><li><a><b>Fecha de Nacimiento: </b> ' + registro[i].birthDate + ' </a></li> \n\
+                         <li><a><b>Dirección: </b> ' + registro[i].address + ' </a></li>\n\
+                         <li><a><b>Correo: </b> ' + registro[i].email + '</a></li>\n\
+                         <li><a><b>Sitio Web: </b> ' + registro[i].site + '</a></li>\n\
+                         <li><a><b>Teléfono: </b> ' + registro[i].tel + '</a></li>\n\
+                         <li><a><b>Teléfono Celular: </b> ' + registro[i].cel + '</a></li>\n\
+                         <li><a><b>Oficio: </b> ' + registro[i].oficio + '</a></li>\n\
+                     </ul></li>\n\
+                    </ul>');
+                }
+            }
+            function consultandocontactos2(data) {
+                var registro = $.parseJSON(data);
+                var mostrarcontactos = $("#datoscontactosd");
+                mostrarcontactos.html('');
+                for (var i in registro) {
+                    mostrarcontactos.append('<ul id="nav"><li><a href="#" class="sub" tabindex="1">' + registro[i].name + ' ' + registro[i].apP + ' ' + registro[i].apM + '</a><img src="images/up.gif" />\n\
+                     <ul><li><a><b>Fecha de Nacimiento: </b> ' + registro[i].birthDate + ' </a></li> \n\
+                         <li><a><b>Dirección: </b> ' + registro[i].address + ' </a></li>\n\
+                         <li><a><b>Correo: </b> ' + registro[i].email + '</a></li>\n\
+                         <li><a><b>Sitio Web: </b> ' + registro[i].site + '</a></li>\n\
+                         <li><a><b>Teléfono: </b> ' + registro[i].tel + '</a></li>\n\
+                         <li><a><b>Teléfono Celular: </b> ' + registro[i].cel + '</a></li>\n\
+                         <li><a><b>Oficio: </b> ' + registro[i].oficio + '</a></li>\n\
+                     </ul></li>\n\
+                    </ul>');
+                }
+            }
+            function consultandoeditar(data) {
+                var registro = $.parseJSON(data);
+                var mostrarcontactoamodificar = $("#contactoamodificar");
+                mostrarcontactoamodificar.html('');
+                for (var i in registro) {
+                    mostrarcontactoamodificar.append('<ul id="nav"><li><a href="#" class="sub" tabindex="1">' + registro[i].name + ' ' + registro[i].apP + ' ' + registro[i].apM + '</a><img src="images/up.gif" />\n\
+                     <ul><li><a><b>Fecha de Nacimiento: </b> ' + registro[i].birthDate + ' </a></li> \n\
+                         <li><a><b>Dirección: </b> ' + registro[i].address + ' </a></li>\n\
+                         <li><a><b>Correo: </b> ' + registro[i].email + '</a></li>\n\
+                         <li><a><b>Sitio Web: </b> ' + registro[i].site + '</a></li>\n\
+                         <li><a><b>Teléfono: </b> ' + registro[i].tel + '</a></li>\n\
+                         <li><a><b>Teléfono Celular: </b> ' + registro[i].cel + '</a></li>\n\
+                         <li><a><b>Oficio: </b> ' + registro[i].oficio + '</a></li>\n\
+                     </ul></li>\n\
+                    </ul>');
+                }
+            }
+
+
+        </script>
+    </head>
+    <body>
+        <!------------------------------------------------------------------------------------------------------------>
+        <div data-role="page" id="principal" data-position="fixed">
+            <div data-role="header" id="header">
+                <h1><img id="miImg" src="img/1.png" align="left" width="20" height="20"/>    Agenda electrónica</h1>
+            </div>
+            <div data-role="content" id="content">
+                <div id="centrartablas" >
+                    <table id="tab" align="center"align="down">
+                        <tr><td><img id="logo" src="img/logo.png" align="center"/></td></tr>
+                        <tr><td>       </td></tr>
+                    </table>
+                    <table align="center" id="tab">
+                        <tr><td><a href="#principalagenda"><input type="image" src="img/1.png"/></a></td></tr>
+                    </table>
+                </div>
+            </div>
+            <div data-role="footer" data-position="fixed" id="footer">
+
+            </div>
+        </div>
+        <!------------------------------------------------------------------------------------------------------------>
+        <div data-role="page" id="principalagenda" >
+            <div data-role="header">
+                <h1><img id="miImg" src="img/1.png" align="left"/> Agenda Electrónica</h1>
+            </div>
+            <div data-role="content" >
+                <ul data-role="listview">
+                    <table align="center">
+                        <tr><td><input type="text" placeholder="Usuario" id="usuariosP" value="Jocasama" disabled="true"/></td></tr>
+                        <tr><td><input type="password" placeholder="Contraseña" id="contraseñaP"/></td></tr>
+                        <td><a data-role="button" href="#" id="usuariosB">Entrar</a></td>
+                    </table>
+
+                </ul>
+            </div>
+            <div data-role="footer"data-position="fixed">
+                <h4>Principal</h4>
+            </div>
+        </div>
+        <!------------------------------------------------------------------------------------------------------------>
+        <!--Pagina principal-->
+        <div data-role="page" id="principal" >
+            <div data-role="header">
+                <h1><img id="miImg" src="img/1.png" align="left"/> Agenda Electrónica</h1>
+            </div>
+            <div data-role="content">
+                <ul data-role="listview">
+                    <li><a href="#citas22" id="Ci">Citas</a></li>
+                    <li><a href="#usuarios" id="ContactosPrincipalC">Usuarios</a></li>
+                    <li><a href="#contactos2" id="ContactosmostrarR">Contactos</a></li>
+                    <li><a href="#usuario" id="cuantasss">Cuenta</a></li>
+
+                </ul>
+            </div>
+            <div data-role="footer"data-position="fixed">
+                <h1>Principal</h1>
+            </div>
+        </div>
+        <!------------------------------------------------------------------------------------------------------------>
+
+        <!--Pagina Ediar Cita-->
+        <div data-role="page" id="agregarcontacto" >
+            <div data-role="header">
+                <h1><img id="miImg" src="img/1.png" align="left"/> Agregar Contacto</h1>
+                <a href="#principal" data-role="button" id="C" data-transition="slidedown">Regresar</a>
+            </div>
+            <div data-role="content">
+                <div id="datos777">
+                </div>
+                <ul data-role="listview">
+                    <table align="center">
+                        <tr><td><input type="text" placeholder="Nombre"id="nom"/></td></tr>
+                        <tr><td><input type="text" placeholder="Apellido Paterno" id="app"/></td></tr>
+                        <tr><td><input type="text" placeholder="Apellido Materno" id="apm"/></td></tr>
+                        <tr><td><input type="text" placeholder="Fecha de Nacimiento" id="fna"/></td></tr>
+                        <tr><td><input type="text" placeholder="Dirreción" id="dirrec"/></td></tr>
+                        <tr><td><input type="text" placeholder="Correo"id="corre"/></td></tr>
+                        <tr><td><input type="text" placeholder="Sitio Web" id="sweb"/></td></tr>
+                        <tr><td><input type="text" placeholder="Teléfono" id="tele"/></td></tr>
+                        <tr><td><input type="text" placeholder="Teléfino Celular" id="telec"/></td></tr>
+                        <tr><td><input type="text" placeholder="Oficio" id="ofi"/></td></tr>
+                    </table>
+                </ul>
+            </div>
+            <div data-role="footer"data-position="fixed">
+                <table align="center">
+                    <tr>
+
+                        <td><a data-role="button" href="#" data-rel="external" id="editarCitaB">Guardar</a></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <!------------------------------------------------------------------------------------------------------------>
+        <!--contactos-->
+        <div data-role="page" id="contactos2" >
+            <div data-role="header">
+                <h1><img id="miImg" src="img/1.png" align="left"/>Contactos</h1>
+                <a href="#principal" data-role="button" data-transition="slidedown">Regresar</a>
+            </div>
+            <div data-role="content">
+                <div id="datoscontactosd">
+                </div>
+            </div>
+            <div data-role="footer"data-position="fixed">
+                <table align="center">
+                    <tr>
+
+                        <td><a data-role="button" href="#agregarcontacto" data-rel="external" id="agregar2">Agregar</a></td>
+                        <td><a data-role="button" href="#editar" data-rel="external" id="editar2">Editar</a></td>
+                        <td><a data-role="button" href="#eliminarcontacto" data-rel="external" id="eliminar2">Eliminar</a></td>
+
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <!------------------------------------------------------------------------------------------------------------>
+        <!--editar-->
+        <div data-role="page" id="editar" >
+            <div data-role="header">
+                <h1><img id="miImg" src="img/1.png" align="left"/>Editar Contacto</h1>
+                <a href="#contactos2" data-role="button" data-transition="slidedown" id="ContactosmostrarR">Regresar</a>
+            </div>
+            <div data-role="content">
+                <table align="center">
+                    <tr><td><input type="text" placeholder="Nombre del contacto"id="nombrecontacto"/></td></tr>
+
+                </table>
+            </div>
+            <div data-role="footer"data-position="fixed">
+                <table align="center">
+                    <tr>
+                        <td><a data-role="button" href="#" data-rel="external" id="edita2">Editar</a></td></tr>
+                </table>
+            </div>
+        </div>
+        <!------------------------------------------------------------------------------------------------------------>
+        <!--usuarios-->
+        <div data-role="page" id="usuarios" >
+            <div data-role="header">
+                <h1><img id="miImg" src="img/1.png" align="left"/>Usuarios</h1>
+                <a href="#principal" data-role="button" data-transition="slidedown">Regresar</a>
+            </div>
+            <div data-role="content">
+                <div id="datoscontactos">
+                </div>
+            </div>
+            <div data-role="footer"data-position="fixed">
+                <table align="center">
+                    <tr>
+                    <h1>
+                        Usuarios
+                    </h1>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <!------------------------------------------------------------------------------------------------------------>
+        <!--citas-->
+        <div data-role="page" id="citas22" >
+            <div data-role="header">
+                <h1><img id="miImg" src="img/1.png" align="left"/>Citas</h1>
+                <a href="#principal" data-role="button" data-transition="slidedown">Regresar</a>
+            </div>
+            <div data-role="content">
+                <div id="datoscitas">
+                </div>
+            </div>
+            <div data-role="footer"data-position="fixed">
+                <table align="center">
+                    <tr>
+                    <h1>
+                        Citas
+                    </h1>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <!------------------------------------------------------------------------------------------------------------>
+        <!--usuario-->
+        <div data-role="page" id="usuario" >
+            <div data-role="header">
+                <h1><img id="miImg" src="img/1.png" align="left"/>Cuenta</h1>
+                <a href="#principal" data-role="button" data-transition="slidedown">Regresar</a>
+            </div>
+            <div data-role="content">
+                <div id="datoscuenta">
+                </div>
+
+            </div>
+            <div data-role="footer"data-position="fixed">
+
+                <table align="center">
+
+                    <tr>
+
+                        <td><label id="Usuario"></label></td>
+
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <!------------------------------------------------------------------------------------------------------------>
+        <!--Eliminar Cita-->
+        <div data-role="page" id="eliminarcita" >
+            <div data-role="header">
+                <h1><img id="miImg" src="img/1.png" align="left"/>Cita a Eliminar</h1>
+                <a href="#contactos" data-role="button" data-transition="slidedown" id="CitasPrincipalB">Regresar</a>
+            </div>
+            <div data-role="content">
+                <ul data-role="listview">
+                    <table align="center">
+                        <tr>
+                            <td><input type="text" placeholder="Cita a Eliminar" id="IDeliminar"/></td>
+                        </tr>
+                    </table>
+                </ul>
+            </div>
+            <div data-role="footer"data-position="fixed">
+                <table align="center">
+                    <tr>
+                        <td><a data-role="button" href="#" data-rel="external" id="eliminarCita">Eliminar</a></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <!------------------------------------------------------------------------------------------------------------>
+        <!--Eliminar Contacto-->
+        <div data-role="page" id="eliminarcontacto" >
+            <div data-role="header">
+                <h1><img id="miImg" src="img/1.png" align="left"/>Contacto a Eliminar</h1>
+                <a href="#principal" data-role="button" data-transition="slidedown" id="ContactosmostrarR">Regresar</a>
+            </div>
+            <div data-role="content">
+                <ul data-role="listview">
+                    <table align="center">
+                        <tr>
+                            <td><input type="text" placeholder="Contacto a Eliminar" id="IDeliminarcontacto"/></td>
+                        </tr>
+                    </table>
+                </ul>
+            </div>
+            <div data-role="footer"data-position="fixed">
+                <table align="center">
+                    <tr>
+                        <td><a data-role="button" href="#" data-rel="external" id="eliminarcontacto2">Eliminar</a></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <!------------------------------------------------------------------------------------------------------------>
+        <!--Modificar Contacto-->
+        <div data-role="page" id="modificarcaontacto" >
+            <div data-role="header">
+                <h1><img id="miImg" src="img/1.png" align="left"/>Modificar Contacto</h1>
+                <a href="#principal" data-role="button" data-transition="slidedown" id="ContactosmostrarR">Regresar</a>
+            </div>
+            <div data-role="content">
+                <div id="contactoamodificar"></div>
+                <ul data-role="listview">
+                    <table align="center">
+                        <tr><td><select id="quemodificar">
+                                    <option selected>Opción a Modificar</option>
+                                    <option value="direccion">Dirección</option>
+                                    <option value="correo">Correo</option>
+                                    <option value="sitioweb">Sitio Web</option>
+                                    <option value="telefono">Teléfono</option>
+                                    <option value="telefonocelular">Teléfono Celular</option>
+                                    <option value="oficio">Oficio</option></select></td></tr>
+                        <tr><td><input type="text" placeholder="Modificar" id="modificarA"/></td></tr>
+                    </table>
+                </ul>
+            </div>
+            <div data-role="footer"data-position="fixed">
+                <table align="center">
+                    <tr>
+                        <td><a data-role="button" href="#" data-rel="external" id="guardarcontactomodificado">Guardar</a></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <!------------------------------------------------------------------------------------------------------------>
+    </body>
+</html>
